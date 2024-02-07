@@ -1,6 +1,6 @@
 import React from "react";
 import { MemberEntity } from "./member-list";
-import { useParams } from "react-router-dom";
+import { Link, generatePath, useParams } from "react-router-dom";
 
 export const MemberDetail: React.FC = () => {
   const [member, setMember] = React.useState<MemberEntity>({
@@ -9,7 +9,7 @@ export const MemberDetail: React.FC = () => {
     avatar_url: "",
   });
 
-  const { login } = useParams();
+  const { login, org } = useParams();
 
   React.useEffect(() => {
     fetch(`https://api.github.com/users/${login}`)
@@ -18,16 +18,21 @@ export const MemberDetail: React.FC = () => {
   }, [login]);
 
   return (
-    <div className="member-detail__container">
-      <div>
-        <img src={member.avatar_url} alt={member.login} />
+    <>
+      <div className="member-detail__container">
+        <div>
+          <img src={member.avatar_url} alt={member.login} />
+        </div>
+        <div>
+          <p>Login: {member.login}</p>
+        </div>
+        <div>
+          <p>ID: {member.id}</p>
+        </div>
       </div>
-      <div>
-        <p>{member.login}</p>
-      </div>
-      <div>
-        <p>{member.id}</p>
-      </div>
-    </div>
+      <Link to={generatePath("/list/:org", { org: org })}>
+        Volver a la lista
+      </Link>
+    </>
   );
 };

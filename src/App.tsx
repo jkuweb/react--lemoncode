@@ -9,7 +9,8 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MemberList />} />
-          <Route path="/detail/:login" element={<MemberDetail />} />
+          <Route path="/list/:org" element={<MemberList />} />
+          <Route path="/:org/detail/:login" element={<MemberDetail />} />
         </Routes>
       </BrowserRouter>
     </>

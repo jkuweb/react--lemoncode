@@ -43,3 +43,12 @@ body > * {
   max-width: 100%;
   width: 5rem;
 }
+
+
+/* Member-detail */
+.member-detail__container {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  place-items: center;
+  
+}

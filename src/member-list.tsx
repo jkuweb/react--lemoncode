@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, generatePath } from "react-router-dom";
+import { FilterContext } from "./filter.provider";
 
 export interface MemberEntity {
   id: number;
@@ -9,14 +10,14 @@ export interface MemberEntity {
 
 export const MemberList: React.FC = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
-  const [filter, setFilter] = React.useState("");
-  const [org, setOrg] = React.useState("lemoncode");
-
+  const [searchText, setSearchText] = React.useState("");
+  const { filter, setFilter } = React.useContext(FilterContext);
+  console.log(filter);
   React.useEffect(() => {
-    fetch(`https://api.github.com/orgs/${org}/members`)
+    fetch(`https://api.github.com/orgs/${filter}/members`)
       .then((response) => response.json())
       .then(setMembers);
-  }, [org]);
+  }, [filter]);
 
   return (
     <>
@@ -24,10 +25,10 @@ export const MemberList: React.FC = () => {
       <div className="member-list__search-bar">
         <input
           type="text"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
         />
-        <button onClick={() => setOrg(filter)}>Buscar</button>
+        <button onClick={() => setFilter(searchText)}>Buscar</button>
       </div>
       <div className="member-list__container">
         <div className="member-list__header">
@@ -42,7 +43,10 @@ export const MemberList: React.FC = () => {
               <span>{member.id}</span>
               <span>
                 <Link
-                  to={generatePath("/detail/:login", { login: member.login })}
+                  to={generatePath("/:org/detail/:login", {
+                    login: member.login,
+                    org: filter,
+                  })}
                 >
                   {member.login}
                 </Link>
