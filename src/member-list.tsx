@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, generatePath } from "react-router-dom";
 import { FilterContext } from "./filter.provider";
+import { usePagination } from "./hooks/pagination.hook";
 
 export interface MemberEntity {
   id: number;
@@ -12,7 +13,20 @@ export const MemberList: React.FC = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
   const [searchText, setSearchText] = React.useState("");
   const { filter, setFilter } = React.useContext(FilterContext);
-  console.log(filter);
+
+  const initialState = {
+    currentPage: 1,
+    pageSize: 10,
+    total: members.length,
+  };
+
+  // pagination
+  const [state, actions] = usePagination(initialState);
+
+  const start = (state.currentPage - 1) * state.pageSize;
+  const end = state.currentPage * state.pageSize;
+  const elementsToDisplay = members.slice(start, end);
+
   React.useEffect(() => {
     fetch(`https://api.github.com/orgs/${filter}/members`)
       .then((response) => response.json())
@@ -37,7 +51,7 @@ export const MemberList: React.FC = () => {
           <span>Login</span>
         </div>
         <ul className="member-list__list">
-          {members.map((member) => (
+          {elementsToDisplay.map((member) => (
             <li key={member.id} className="member-list__list-item">
               <img src={member.avatar_url} />
               <span>{member.id}</span>
@@ -54,6 +68,23 @@ export const MemberList: React.FC = () => {
             </li>
           ))}
         </ul>
+      </div>
+      <div>
+        <div>
+          <button onClick={actions.prevPage} disabled={state.currentPage === 1}>
+            Prev
+          </button>
+        </div>
+        <div>
+          <button
+            onClick={actions.nextPage}
+            disabled={
+              state.currentPage === Math.ceil(members.length / state.pageSize)
+            }
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );
