@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, generatePath } from "react-router-dom";
 
 export interface MemberEntity {
   id: number;
@@ -40,7 +41,11 @@ export const MemberList: React.FC = () => {
               <img src={member.avatar_url} />
               <span>{member.id}</span>
               <span>
-                <a href=""> {member.login}</a>
+                <Link
+                  to={generatePath("/detail/:login", { login: member.login })}
+                >
+                  {member.login}
+                </Link>
               </span>
             </li>
           ))}

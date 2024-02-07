@@ -1,5 +1,6 @@
 import React from "react";
 import { MemberEntity } from "./member-list";
+import { useParams } from "react-router-dom";
 
 export const MemberDetail: React.FC = () => {
   const [member, setMember] = React.useState<MemberEntity>({
@@ -7,6 +8,8 @@ export const MemberDetail: React.FC = () => {
     login: "",
     avatar_url: "",
   });
+
+  const { login } = useParams();
 
   React.useEffect(() => {
     fetch(`https://api.github.com/users/${login}`)
