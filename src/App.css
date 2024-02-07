@@ -3,3 +3,34 @@
   margin: 0 auto;
   padding: 2rem;
 }
+
+body > * {
+  padding: 0;
+  margin: 0;
+}
+
+.member-list__header, .member-list__list-item {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  place-items: center;
+}
+
+.member-list__container {
+  display: grid;
+  grid-template-rows: 5rem;
+  
+}
+
+.member-list__list{
+  list-style: none;
+  padding:  0;
+
+}
+
+.member-list__list-item:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+.member-list__list-item > img{
+  max-width: 100%;
+  width: 5rem;
+}
