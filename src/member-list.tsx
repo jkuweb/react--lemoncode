@@ -8,16 +8,26 @@ interface MemberEntity {
 
 export const MemberList = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
+  const [filter, setFilter] = React.useState("");
+  const [org, setOrg] = React.useState("lemoncode");
 
   React.useEffect(() => {
-    fetch("----://api.github.com/orgs/lemoncode/members")
+    fetch(`https://api.github.com/orgs/${org}/members`)
       .then((response) => response.json())
       .then(setMembers);
-  }, []);
+  }, [org]);
 
   return (
     <>
       <h1>Member-list</h1>
+      <div className="search-bar">
+        <input
+          type="text"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
+        <button onClick={() => setOrg(filter)}>Buscar</button>
+      </div>
       <div className="member-list__container">
         <div className="member-list__header">
           <span>Avatar</span>
