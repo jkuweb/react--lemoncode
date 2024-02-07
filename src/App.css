@@ -9,6 +9,15 @@ body > * {
   margin: 0;
 }
 
+.member-list__heading, .member-list__search-bar {
+  text-align: center;
+
+}
+
+.member-list__search-bar {
+
+}
+
 .member-list__header, .member-list__list-item {
   display: grid;
   grid-template-columns: repeat(3,1fr);

@@ -1,12 +1,12 @@
 import React from "react";
 
-interface MemberEntity {
+export interface MemberEntity {
   id: number;
   login: string;
   avatar_url: string;
 }
 
-export const MemberList = () => {
+export const MemberList: React.FC = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
   const [filter, setFilter] = React.useState("");
   const [org, setOrg] = React.useState("lemoncode");
@@ -19,8 +19,8 @@ export const MemberList = () => {
 
   return (
     <>
-      <h1>Member-list</h1>
-      <div className="search-bar">
+      <h1 className="member-list__heading">Member-list</h1>
+      <div className="member-list__search-bar">
         <input
           type="text"
           value={filter}
@@ -39,7 +39,9 @@ export const MemberList = () => {
             <li key={member.id} className="member-list__list-item">
               <img src={member.avatar_url} />
               <span>{member.id}</span>
-              <span>{member.login}</span>
+              <span>
+                <a href=""> {member.login}</a>
+              </span>
             </li>
           ))}
         </ul>
